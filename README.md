@@ -21,7 +21,7 @@ A lightweight command-line shell implementation written in Go.
 ### Running locally
 
 1. Clone the repository:
-   ```bash
+```bash
    git clone [https://github.com/your-username/your-repo-name.git](https://github.com/your-username/your-repo-name.git)
    cd your-repo-name
 ```
@@ -56,7 +56,6 @@ $ ls -la
 # Outputs current directory contents...
 
 $ exit
-
 ```
 
 ## Roadmap / Future Enhancements
