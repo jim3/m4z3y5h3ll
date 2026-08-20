@@ -50,17 +50,27 @@ func main() {
 			os.Exit(0)
 		case "echo":
 			fmt.Println(strings.Join(args[1:], " "))
-
 		case "type":
 			if _, ok := builtin[args[1]]; ok {
 				fmt.Println(args[1], "is a shell builtin")
 				continue
 			}
-			if fullPath, ok := findExe(args); ok {
-				fmt.Println(args[1], "is", fullPath) // ls is /usr/bin/ls
+			if fullPath, ok := execBin(args); ok {
+				fmt.Println(args[1], "is", fullPath)
 				continue
 			} else {
 				fmt.Printf("%s: not found\n", args[1])
+			}
+		case "pwd":
+			pwd, err := os.Getwd()
+			if err != nil {
+				fmt.Printf("%v: not found\n", pwd)
+			}
+			fmt.Println(pwd)
+		case "cd":
+			err := os.Chdir(args[1])
+			if err != nil {
+				fmt.Println("cd: /non-existing-directory: No such file or directory")
 			}
 		default:
 			_, exists := builtin[cmd]
@@ -82,11 +92,10 @@ func main() {
 	}
 }
 
-func findExe(args []string) (string, bool) {
+func execBin(args []string) (string, bool) {
 	if len(args) < 2 {
 		return "", false
 	}
-
 	exe := args[1]
 	for _, v := range filepath.SplitList(os.Getenv("PATH")) {
 		filePath := filepath.Join(v, exe)
