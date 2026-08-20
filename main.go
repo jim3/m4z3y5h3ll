@@ -27,8 +27,8 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Print("$ ")
-
 		line, err := reader.ReadString('\n')
+		
 		if err != nil {
 			if errors.Is(err, io.EOF) {
 				return
@@ -36,7 +36,6 @@ func main() {
 			fmt.Fprintln(os.Stderr, "reading standard input:", err)
 			continue
 		}
-
 		line = strings.TrimSpace(line)
 		if line == "" {
 			continue
@@ -44,7 +43,6 @@ func main() {
 
 		args := strings.Fields(line)
 		cmd := args[0]
-
 		switch cmd {
 		case "exit":
 			os.Exit(0)
@@ -57,13 +55,12 @@ func main() {
 				fmt.Println("type: missing argument")
 				continue
 			}
-
 			if _, ok := builtin[args[1]]; ok {
 				fmt.Println(args[1], "is a shell builtin")
 				continue
 			}
 			if fullPath, ok := execBin(args); ok {
-				fmt.Println(args[1], "is", fullPath) // ls is /usr/bin/ls
+				fmt.Println(args[1], "is", fullPath)
 				continue
 			} else {
 				fmt.Printf("%s: not found\n", args[1])
@@ -103,7 +100,7 @@ func main() {
 					command := exec.Command(cmd, args[1:]...)
 					command.Stdout = os.Stdout
 					command.Stderr = os.Stderr
-					output := command.Run() // Run starts the specified command and waits for it to complete
+					output := command.Run()
 					if output != nil {
 						fmt.Println("Error:", output)
 					}
@@ -122,7 +119,7 @@ func execBin(args []string) (string, bool) {
 	for _, v := range filepath.SplitList(os.Getenv("PATH")) {
 		filePath := filepath.Join(v, exe)
 		info, err := os.Stat(filePath)
-		// Check if the file exists and is executable
+		
 		if err == nil && !info.IsDir() && info.Mode().Perm()&0o111 != 0 {
 			return filePath, true
 		}
