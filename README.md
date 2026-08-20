@@ -9,14 +9,16 @@ A lightweight command-line shell implementation written in Go.
   * `exit`: Gracefully exits the shell.
   * `echo`: Prints arguments back to standard output.
   * `type`: Checks whether a given command is a shell builtin or resolves its full binary path using `$PATH`.
-* **External Command Execution:** Locates and executes external binaries found in `$PATH` using `os/exec`, streaming stdout and stderr back to the terminal.
+  * `pwd`: Prints the current working directory.
+  * `cd`: Changes the current working directory.
+* **External Command Execution:** Locates and executes external binaries found in `$PATH` using `os/exec`, streaming `stdout` and `stderr` back to the terminal.
 * **PATH Resolution:** Manual PATH inspection to inspect executable permissions (`0111`) across directory splits.
 
 ## Getting Started
 
 ### Prerequisites
 
-* Go 1.18+ or later installed.
+* Go 1.20 or later installed on your system.
 
 ### Running locally
 
@@ -34,35 +36,21 @@ go run main.go
 
 3. Or compile and execute the binary:
 ```bash
-go build -o myshell main.go
-./myshell
+go build -o g0-_-5h3ll main.go
+./g0-_-5h3ll
 ```
-
-
 
 ## Usage Example
 
 ```bash
-$ echo hello world
-hello world
-
+$ ./g0-_-5h3ll
+$ echo Hello, World!
+Hello, World!
 $ type echo
 echo is a shell builtin
-
 $ type ls
 ls is /usr/bin/ls
-
-$ ls -la
-# Outputs current directory contents...
-
+$ type nonexistent
+nonexistent: not found
 $ exit
 ```
-
-## Roadmap / Future Enhancements
-
-* [ ] Directory navigation (`cd`, `pwd`)
-* [ ] Command history tracking
-* [ ] Tab completion
-* [ ] Quoting & escaping support (single/double quotes)
-* [ ] Input/Output redirection (`>`, `>>`, `2>`)
-* [ ] Pipeline execution (`|`)
